@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<solr persistent="true" sharedLib="lib">
+  <cores adminPath="/admin/cores">
+    <core loadOnStartup="true" instanceDir="FindShipments/" transient="false" name="FindShipments" config="./config/FindShipments/solrconfig.xml" dataDir="/data/FindShipments/"/>
+    <core loadOnStartup="true" instanceDir="UserSearch/" transient="false" name="UserSearch" config="./config/UserSearch/solrconfig.xml" dataDir="/data/UserSearch/"/>
+    <core loadOnStartup="true" instanceDir="AllListings/" transient="false" name="AllListings" config="./config/AllListings/solrconfig.xml" dataDir="/data/AllListings/"/>
+  </cores>
+</solr>
