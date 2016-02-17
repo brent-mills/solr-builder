@@ -15,4 +15,4 @@ fi
 
 ./link_data.sh
 
-./bin/solr -f -p 8080
+./bin/solr -f

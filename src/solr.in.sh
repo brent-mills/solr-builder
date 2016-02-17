@@ -58,7 +58,7 @@ GC_TUNE="-XX:NewRatio=3 \
 #SOLR_HOST="192.168.1.1"
 
 # By default the start script uses UTC; override the timezone if needed
-SOLR_TIMEZONE="CST"
+#SOLR_TIMEZONE="CST"
 
 # Set to true to activate the JMX RMI connector to allow remote JMX client applications
 # to monitor the JVM hosting Solr; set to "false" to disable that behavior

@@ -1,0 +1,11 @@
+Purpose:
+	The default solr container is good for PoC but requires modifications to be used more effectively.  We need a way to modify the memory at runtime to make it more flexible for different environments.  Default logging is very verbose so we are only logging system info and warnings.  Data needs a way to be persisted and we want to be able to have schema files be part of a versioned container for easier portability and deployment.  We also want this to be generic and be cached so we can easily use it to build a number of different solr instances.
+
+Memory:
+	Java Xmx and Xms heap size variables are passed as environment variables via "docker run" and evaluated by the solr.in.sh file.  If these are not supplied it is defaulted to 512m since default docker vm mem is only 2gb.
+
+Logging:
+	Configured via log4j.properties.  Documentation can be found at https://wiki.apache.org/solr/SolrLogging.
+
+Persisted Storage:
+	Given that we intend to store data in named volumes, make schema files part of the container, and need the ability to add cores we run into a problem.  If we create a new container with a named volume pointed to /opt/user/solr/server/solr/<corename> we need to know the core name as part of the "docker run" command.  We can make the folder name generic and control the core name with the core.properties file but that becomes kludgy.  We can create a subdirectory named "cores" and mount the named volume into that but that exposes another issue.  If we add a new core as part of the build process the absence of that directory in the existing named volume will override everything we just created.  Also any existing core config that was changed is overwritten by what's in the named volume.  What we do instead is create a /data/ directory and through link_data.sh we iterate through all the cores in our container and symlink out just the data directories within each core (where the index data is stored, not the config) to the /data/ directory.  Since we do this at runtime (called via solr.in.sh) the new directories for new cores are created into the named volume and subsequently persisted.
